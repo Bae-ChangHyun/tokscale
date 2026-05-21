@@ -469,6 +469,10 @@ tokscale antigravity status
 # 将本地 Antigravity 语言服务器中的使用量同步到 tokscale 的缓存
 tokscale antigravity sync
 
+# 显示独立 Antigravity CLI（agy）的额度与配额使用情况
+tokscale antigravity usage
+tokscale antigravity usage --json
+
 # 删除已缓存的 Antigravity 产物
 tokscale antigravity purge-cache
 ```
@@ -476,6 +480,8 @@ tokscale antigravity purge-cache
 **缓存位置**：`~/.config/tokscale/antigravity-cache/`
 
 **工作原理**：`tokscale antigravity sync` 会发现本地的 Antigravity 会话候选项，从本地语言服务器 RPC 获取已确认的使用数据，并以归一化的 JSONL 产物形式存储，供 tokscale-core 后续解析。如果希望报告反映最新的 Antigravity 数据，请在生成报告前先运行同步。
+
+**`tokscale antigravity usage`**：独立的 Antigravity CLI（`agy`，与上文的 Antigravity 编辑器不同）以**额度**（prompt 与 flow）而非 token 计量用量，因此单独显示，而不是作为 token 表中的一行。tokscale 会从 `agy` 的本地 Connect API 读取快照。如果没有正在运行的 `agy` 进程，tokscale 会在后台短暂启动一个，读取快照后将其关闭；由于从不提交任何提示词，因此不会消耗额度。仅支持 macOS 和 Linux。
 
 ### 示例输出（`--light` 版本）
 

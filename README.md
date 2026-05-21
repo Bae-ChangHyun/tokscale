@@ -487,6 +487,10 @@ tokscale antigravity status
 # Sync usage from local Antigravity language servers into tokscale's cache
 tokscale antigravity sync
 
+# Show credit and quota usage for the standalone Antigravity CLI (agy)
+tokscale antigravity usage
+tokscale antigravity usage --json
+
 # Delete the cached Antigravity artifacts
 tokscale antigravity purge-cache
 ```
@@ -494,6 +498,8 @@ tokscale antigravity purge-cache
 **Cache location**: `~/.config/tokscale/antigravity-cache/`
 
 **How it works**: `tokscale antigravity sync` discovers local Antigravity session candidates, fetches confirmed usage data from the local language server RPC, and stores normalized JSONL artifacts for tokscale-core to parse later. Run sync before reports if you want the freshest Antigravity data.
+
+**`tokscale antigravity usage`**: The standalone Antigravity CLI (`agy`) — distinct from the Antigravity editor above — meters consumption as **credits** (prompt and flow), not tokens, so it is reported on its own rather than as a row in the token table. tokscale reads a live snapshot from `agy`'s local Connect API. If no `agy` process is running, tokscale briefly starts one in the background, reads the snapshot, then shuts it down; no prompt is ever submitted, so no credits are spent. macOS and Linux only.
 
 ### Example Output (`--light` version)
 

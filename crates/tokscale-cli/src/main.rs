@@ -1,4 +1,5 @@
 mod antigravity;
+mod antigravity_cli;
 mod auth;
 mod commands;
 mod cursor;
@@ -311,6 +312,11 @@ enum AntigravitySubcommand {
     Sync,
     #[command(about = "Show Antigravity sync status")]
     Status {
+        #[arg(long, help = "Output as JSON")]
+        json: bool,
+    },
+    #[command(about = "Show Antigravity CLI (agy) credit and quota usage")]
+    Usage {
         #[arg(long, help = "Output as JSON")]
         json: bool,
     },
@@ -4310,6 +4316,9 @@ fn run_antigravity_command(subcommand: AntigravitySubcommand) -> Result<()> {
     match subcommand {
         AntigravitySubcommand::Sync => antigravity::run_antigravity_sync(),
         AntigravitySubcommand::Status { json } => antigravity::run_antigravity_status(json),
+        AntigravitySubcommand::Usage { json } => {
+            antigravity_cli::run_antigravity_cli_usage(json)
+        }
         AntigravitySubcommand::PurgeCache => antigravity::run_antigravity_purge_cache(),
     }
 }

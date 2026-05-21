@@ -469,6 +469,10 @@ tokscale antigravity status
 # ローカル Antigravity 言語サーバから使用量を tokscale のキャッシュに同期
 tokscale antigravity sync
 
+# スタンドアロン Antigravity CLI（agy）のクレジット・クォータ使用量を表示
+tokscale antigravity usage
+tokscale antigravity usage --json
+
 # キャッシュされた Antigravity アーティファクトを削除
 tokscale antigravity purge-cache
 ```
@@ -476,6 +480,8 @@ tokscale antigravity purge-cache
 **キャッシュ場所**: `~/.config/tokscale/antigravity-cache/`
 
 **仕組み**: `tokscale antigravity sync` はローカルの Antigravity セッション候補を検出し、ローカル言語サーバ RPC から確定済みの使用量データを取得して、tokscale-core が後で解析できるよう正規化された JSONL アーティファクトとして保存します。最新の Antigravity データをレポートに反映したい場合は、レポート実行前に sync を実行してください。
+
+**`tokscale antigravity usage`**: スタンドアロン Antigravity CLI（`agy`、上記の Antigravity エディタとは別物）は使用量をトークンではなく **クレジット**（prompt と flow）単位で計測するため、トークン表の行ではなく独立して表示されます。tokscale は `agy` のローカル Connect API からスナップショットを読み取ります。実行中の `agy` プロセスが無い場合は、tokscale がバックグラウンドで一時的に起動してスナップショットを読み取り、その後終了します。プロンプトは一切送信しないため、クレジットは消費されません。macOS と Linux のみ対応です。
 
 ### 出力例（`--light`バージョン）
 
